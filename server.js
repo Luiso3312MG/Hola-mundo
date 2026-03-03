@@ -44,8 +44,10 @@ app.post("/login", (req, res) => {
 
     if (results.length > 0) {
       res.redirect("/index.html");
+      console.log(results);
     } else {
       res.send("Usuario o contraseña incorrectos");
+      console.log(results);
     }
   });
 });
