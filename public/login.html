@@ -1,3 +1,52 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#E7C7C2",
+                "accent": "#D6C3A5",
+                "text-main": "#2B2B2B",
+                "text-sub": "#6D6766",
+                "background-light": "#F5E9E7",
+                "background-dark": "#221110",
+              },
+              fontFamily: {
+                "display": ["Manrope", "sans-serif"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<title>Admin Login | Pole &amp; Barre</title>
+</head>
+<body class="bg-background-light font-display text-text-main min-h-screen flex items-center justify-center p-6">
+<div class="w-full max-w-[440px] flex flex-col items-center">
+<!-- Logo Section -->
+<div class="mb-10 flex flex-col items-center gap-3">
+<div class="size-12 bg-white rounded-full flex items-center justify-center shadow-sm text-primary">
+<svg class="w-8 h-8" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
+</svg>
+</div>
+<h1 class="text-2xl font-bold tracking-tight text-text-main uppercase">Pole &amp; Barre</h1>
+</div>
+<!-- Login Card -->
+<div class="w-full bg-white rounded-xl shadow-xl shadow-primary/10 border border-primary/20 p-8 md:p-10">
+<div class="mb-8">
+<h2 class="text-xl font-bold text-text-main">Iniciar Sesión</h2>
+<p class="text-text-sub text-sm mt-1">Panel de Administración del Studio</p>
+</div>
 <form class="space-y-5" method="POST" action="/login">
 
   <!-- Usuario -->
@@ -48,3 +97,34 @@
   </button>
 
 </form>
+<!-- Divider -->
+<div class="relative my-8">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-primary/20"></div>
+</div>
+<div class="relative flex justify-center text-xs uppercase">
+<span class="bg-white px-3 text-text-sub/60">O continúa con</span>
+</div>
+</div>
+<!-- Social Login / Secondary Action -->
+<div class="text-center">
+<p class="text-sm text-text-sub">
+                    ¿No tienes una cuenta? 
+                    <a class="text-accent font-bold hover:underline underline-offset-4 ml-1" href="#">Regístrate</a>
+</p>
+</div>
+</div>
+<!-- Footer Info -->
+<footer class="mt-12 flex flex-col items-center gap-4">
+<div class="flex gap-6 text-text-sub/60 text-xs font-medium">
+<a class="hover:text-accent transition-colors" href="#">Términos de Servicio</a>
+<a class="hover:text-accent transition-colors" href="#">Política de Privacidad</a>
+<a class="hover:text-accent transition-colors" href="#">Soporte</a>
+</div>
+<p class="text-[10px] text-text-sub/40 uppercase tracking-widest">© 2024 Pole &amp; Barre Studio Admin</p>
+</footer>
+</div>
+<!-- Decorative background elements -->
+<div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] -z-10"></div>
+<div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/10 rounded-full blur-[120px] -z-10"></div>
+</body></html>
