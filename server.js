@@ -1,16 +1,19 @@
 const express = require("express");
 const mysql = require("mysql2");
 const bodyParser = require("body-parser");
-const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
-// Conexión a MySQL (Railway)
+// 👉 Cuando entren a la raíz, mandar a login
+app.get("/", (req, res) => {
+  res.redirect("/login.html");
+});
+
+// Conexión MySQL
 const db = mysql.createConnection({
   host: process.env.MYSQLHOST,
   user: process.env.MYSQLUSER,
@@ -27,7 +30,7 @@ db.connect(err => {
   }
 });
 
-// Ruta POST login
+// Login
 app.post("/login", (req, res) => {
   const { user, passwword } = req.body;
 
