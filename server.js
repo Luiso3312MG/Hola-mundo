@@ -22,7 +22,7 @@ const connection = mysql.createConnection({
   database: process.env.DB_NAME
 });
 
-db.connect(err => {
+connection.connect(err => {
   if (err) {
     console.error("Error conectando a MySQL:", err);
   } else {
@@ -36,7 +36,7 @@ app.post("/login", (req, res) => {
 
   const query = "SELECT * FROM users WHERE user = ? AND passwword = ?";
 
-  db.query(query, [user, passwword], (err, results) => {
+  connection.query(query, [user, passwword], (err, results) => {
     if (err) {
       console.error(err);
       return res.send("Error del servidor");
