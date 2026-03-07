@@ -41,6 +41,7 @@
 
     loadUser();
 
+    async function colors(){
     fetch("/api/themes/themes")
       .then(res => res.json())
       .then(data => {
@@ -50,10 +51,13 @@
         color = data.themes[0];
         console.log(color,'daw');
 
+        return color;
         //document.body.style.backgroundColor = color;
 
-      }); 
-    tailwind.config = {
+      }); }
+
+      color= await colors();
+     tailwind.config = {
       darkMode: "class",
       theme: {
         extend: {
