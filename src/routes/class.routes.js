@@ -3,33 +3,50 @@ const pool = require("../config/db");
 
 const router = express.Router();
 
-router.get("/class", async(req, res) => {
-  const { studId, date } = req.params;
+router.get("/class", async (req, res) => {
+  try {
+    // Extraer identificador y fecha de la consulta (query) o del cuerpo.
+    let { studId, date } = req.query;
 
-  const [rows] = await pool.query(`
-    SELECT 
-      start_time,
-      end_time,
-      class_type_name,
-      coach_user_name,
-      room_name,
-      capacity,
-      capacity_total
-    FROM classes
-    WHERE studio_id = ?
-      AND class_date = ?
-      AND status <> 'ELIMINADA'
-    ORDER BY start_time ASC
-  `,[studId],[date]);
-
-  pool.query(sql, [studId, date], (err, results) => {
-    if (err) {
-      console.error("Error al obtener clases:", err);
-      return res.status(500).json({ error: "Error del servidor" });
+    // La versión de la interfaz envía userId en lugar de studId. Permitir ambos.
+    if (!studId) {
+      studId = req.query.userId || (req.body ? req.body.userId : undefined);
     }
 
-    res.json(results);
-  });
-});
+    if (!date && req.body) {
+      date = req.body.date;
+    }
 
+    // Validar parámetros obligatorios.
+    if (!studId || !date) {
+      return res.status(400).json({ ok: false, error: "Faltan parámetros studId/userId o date" });
+    }
+
+    // Ejecutar la consulta utilizando pool.query. Pasar ambos valores en un mismo array.
+    const [rows] = await pool.query(
+      `
+      SELECT 
+        start_time,
+        end_time,
+        class_type_name,
+        coach_user_name,
+        room_name,
+        capacity,
+        capacity_total
+      FROM classes
+      WHERE studio_id = ?
+        AND class_date = ?
+        AND status <> 'ELIMINADA'
+      ORDER BY start_time ASC
+      `,
+      [studId, date]
+    );
+
+    // Devolver los resultados como un arreglo de clases.
+    return res.json(rows);
+  } catch (error) {
+    console.error("Error al obtener clases:", error);
+    return res.status(500).json({ ok: false, error: "Error del servidor" });
+  }
+});
 module.exports = router;
