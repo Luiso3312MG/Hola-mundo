@@ -81,13 +81,7 @@
     var date='2026-03-07';
     async function loadClasses() {
   try {
-    const classRes = await fetch("/api/classes/class",{
-       method: "GET",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ userId, date })
-    });
+    const classRes = await fetch(`/api/classes/class?studId=${userId}&date=${date}`);
 
     if (!classRes.ok) {
       const text = await classRes.text();
