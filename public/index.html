@@ -80,7 +80,7 @@
     async function loadClasses() {
       try {
         const classRes = await fetch("/api/class/class/1/2026-03-07");
-        const classData = await res.json();
+        const classData = await classRes.json();
         
 
         if (classData?.class?.length > 0) {
