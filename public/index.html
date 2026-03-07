@@ -15,6 +15,7 @@
     rel="stylesheet" />
 
   <script id="tailwind-config">
+    var color;
     async function loadUser() {
       try {
         const response = await fetch("/api/auth/me");
@@ -41,12 +42,12 @@
     });
 
     loadUser();
-    
+
     fetch("/api/themes/themes")
       .then(res => res.json())
       .then(data => {
 
-        const color = data.themes[0].primary_color;
+        color = data.themes[0].primary_color;
 
         document.body.style.backgroundColor = color;
 
