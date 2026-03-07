@@ -20,7 +20,7 @@ router.get("/email", async (req, res) => {
 
     return res.json({
       ok: true,
-      email: rows[0].email
+      email: rows[0].code
     });
 
   } catch (error) {
