@@ -294,15 +294,18 @@
         </div>
         <div class=" overflow-x-auto">
           <table id="tabla-clases-hoy" class="w-full text-left">
+            <table class="w-full text-left">
             <thead>
               <tr class="bg-background-light/50">
                 <th class="px-6 py-4 text-text-main/60 text-xs font-bold uppercase tracking-wider">Horario</th>
                 <th class="px-6 py-4 text-text-main/60 text-xs font-bold uppercase tracking-wider">Tipo de Clase</th>
                 <th class="px-6 py-4 text-text-main/60 text-xs font-bold uppercase tracking-wider">Instructor</th>
+                <th class="px-6 py-4 text-text-main/60 text-xs font-bold uppercase tracking-wider">sala</th>
                 <th class="px-6 py-4 text-text-main/60 text-xs font-bold uppercase tracking-wider">Inscritos</th>
                 <th class="px-6 py-4"></th>
               </tr>
             </thead>
+            <tbody id="tabla-body"></tbody>
 
             <tbody id="tbody-clases-hoy" class="divide-y divide-accent-border/40">
 
@@ -708,5 +711,101 @@
     });
   </script>
 </body>
+<script>
+
+  const classData = [
+    {
+      id: 1,
+      studio_id: 1,
+      class_type_name: "Pole Dance Beginner",
+      room_name: "Sala 1",
+      coach_user_name: "Carla",
+      class_date: "2026-03-07",
+      start_time: "09:00:00",
+      end_time: "10:00:00",
+      capacity: 8,
+      capacity_total: 10,
+      status: "DISPONIBLE",
+      created_at: "2026-03-07 15:32:50",
+      updated_at: "2026-03-07 15:32:50"
+    }
+  ];
+  const tbody = document.getElementById("tabla-body");
+
+  classData.forEach(clase => {
+
+  const progreso = Math.round((clase.capacity / clase.capacity_total) * 100);
+
+  let colorBarra = "bg-blue-500";
+
+  if (clase.status === "LLENA") {
+    colorBarra = "bg-green-500";
+  }
+
+  if (clase.status === "CANCELADO") {
+    colorBarra = "bg-red-500";
+  }
+
+  const fila = `
+<tr class="hover:bg-primary/5 transition-colors">
+
+  <td class="px-6 py-5">
+    <span class="text-text-main font-bold">
+      ${clase.start_time} - ${clase.end_time}
+    </span>
+  </td>
+
+  <td class="px-6 py-5">
+    <div class="flex items-center gap-2">
+      <span class="size-2 rounded-full bg-[#D6E7C2]"></span>
+      <span class="text-text-main font-semibold">
+        ${clase.class_type_name}
+      </span>
+    </div>
+  </td>
+
+  <td class="px-6 py-5 text-text-main/80 font-medium">
+    ${clase.coach_user_name}
+  </td>
+
+  <td class="px-6 py-5 text-text-main/80 font-medium">
+    ${clase.room_name}
+  </td>
+
+  <td class="px-6 py-5">
+
+    <div class="flex items-center gap-2">
+
+      <div class="w-20 bg-background-light rounded-full h-1.5 overflow-hidden">
+
+        <div 
+          class="${colorBarra} h-full"
+          style="width:${progreso}%">
+        </div>
+
+      </div>
+
+      <span class="text-sm font-bold text-text-main">
+        ${clase.capacity}/${clase.capacity_total}
+      </span>
+
+    </div>
+
+  </td>
+
+  <td class="px-6 py-5 text-right">
+    <button class="text-text-main/40 hover:text-text-main transition-colors">
+      <span class="material-symbols-outlined">more_vert</span>
+    </button>
+  </td>
+
+</tr>
+`;
+
+  tbody.innerHTML += fila;
+
+});
+
+</script>
 
 </html>
