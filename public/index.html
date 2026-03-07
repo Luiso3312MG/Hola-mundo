@@ -9,8 +9,7 @@
     rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap"
     rel="stylesheet" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
     rel="stylesheet" />
 
   <style>
@@ -77,44 +76,44 @@
       }
     }
 
-    var userId=1;
+    var userId = 1;
     var date = new Date().toISOString().split('T')[0];
 
     // Aquí inserta el fragmento de código para configurar el input de fecha
-  document.addEventListener('DOMContentLoaded', () => {
-    const fechaInput = document.getElementById('fecha-seleccionada');
-    if (fechaInput) {
-      // Establecer el valor inicial en la fecha actual
-      fechaInput.value = date;
-      // Actualizar la variable "date" y volver a cargar las clases cuando cambie
-      fechaInput.addEventListener('change', (e) => {
-        date = e.target.value;
-        loadClasses();
-      });
-    }
-  });
+    document.addEventListener('DOMContentLoaded', () => {
+      const fechaInput = document.getElementById('fecha-seleccionada');
+      if (fechaInput) {
+        // Establecer el valor inicial en la fecha actual
+        fechaInput.value = date;
+        // Actualizar la variable "date" y volver a cargar las clases cuando cambie
+        fechaInput.addEventListener('change', (e) => {
+          date = e.target.value;
+          loadClasses();
+        });
+      }
+    });
 
     async function loadClasses() {
-  try {
-    const classRes = await fetch(`/api/classes/class?studId=${userId}&date=${date}`);
+      try {
+        const classRes = await fetch(`/api/classes/class?studId=${userId}&date=${date}`);
 
-    if (!classRes.ok) {
-      const text = await classRes.text();
-      console.error("Error HTTP:", classRes.status, text);
-      return;
+        if (!classRes.ok) {
+          const text = await classRes.text();
+          console.error("Error HTTP:", classRes.status, text);
+          return;
+        }
+
+        const classData = await classRes.json();
+        console.log("Clases:", classData);
+
+        if (classData?.length > 0) {
+          const classInfo = classData[0];
+          console.log("Primera clase:", classInfo);
+        }
+      } catch (error) {
+        console.error("Error cargando clase:", error);
+      }
     }
-
-    const classData = await classRes.json();
-    console.log("Clases:", classData);
-
-    if (classData?.length > 0) {
-      const classInfo = classData[0];
-      console.log("Primera clase:", classInfo);
-    }
-  } catch (error) {
-    console.error("Error cargando clase:", error);
-  }
-}
 
     async function initTheme() {
       await loadUser();
@@ -148,8 +147,7 @@
     <aside id="sidebar-principal"
       class="w-64 flex flex-col border-r border-accent-border bg-background-light px-4 py-6">
       <div id="contenedor-logo-estudio" class="flex items-center gap-3 px-2 mb-10">
-        <div id="logo-estudio"
-          class="size-10 rounded-full bg-primary flex items-center justify-center text-white"
+        <div id="logo-estudio" class="size-10 rounded-full bg-primary flex items-center justify-center text-white"
           data-alt="Logo minimalista de estudio de danza aérea"
           style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuChF50UObrTykE0eCJ0nJlyZqNUPwaGMcJINJBuxuCO8c-jZXj6xZmePUiTKoeMfVb47YuRnnOxv3IW7MvbjvhI6j6WlWzGh23SlY9jayQzUxSqGW4i0L0eVwQ-XAZ0mSfXuT1Kd8-IyfHIi-u53xogg6kBEQWhvK_XmuLD5C9UPcCpqaFqn5jhGsCwWK1U3vivqzibrcaIkNaVy4KQuw8kCA3DMohqQQepd_KmnVoJC_zZVrPkL3F1MMrFdNf4-1Bns-U_DpTwMHJ8'); background-size: cover;">
         </div>
@@ -164,29 +162,25 @@
 
       <nav id="nav-principal" class="flex flex-col gap-2 grow">
         <a id="link-dashboard"
-          class="sidebar-item-active flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors"
-          href="#">
+          class="sidebar-item-active flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors" href="#">
           <span class="material-symbols-outlined text-text-main">dashboard</span>
           <span class="text-text-main text-sm font-semibold">Dashboard</span>
         </a>
 
         <a id="link-alumnos"
-          class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 transition-colors"
-          href="#">
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 transition-colors" href="#">
           <span class="material-symbols-outlined text-text-main">group</span>
           <span class="text-text-main text-sm font-medium">Alumnos</span>
         </a>
 
         <a id="link-horario"
-          class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 transition-colors"
-          href="#">
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 transition-colors" href="#">
           <span class="material-symbols-outlined text-text-main">calendar_month</span>
           <span class="text-text-main text-sm font-medium">Horario</span>
         </a>
 
         <a id="link-reportes"
-          class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 transition-colors"
-          href="#">
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 transition-colors" href="#">
           <span class="material-symbols-outlined text-text-main">analytics</span>
           <span class="text-text-main text-sm font-medium">Reportes</span>
         </a>
@@ -290,14 +284,15 @@
       </section>
 
       <!-- Classes Section -->
-      <section id="seccion-clases-hoy" class="bg-white rounded-xl border border-accent-border shadow-sm overflow-hidden">
+      <section id="seccion-clases-hoy"
+        class="bg-white rounded-xl border border-accent-border shadow-sm overflow-hidden">
         <div class="px-6 py-5 border-b border-accent-border flex justify-between items-center">
-  <h3 id="titulo-seccion-clases-hoy" class="text-text-main text-xl font-bold">Clases</h3>
-  <!-- Campo de selección de fecha para filtrar clases -->
-  <input id="fecha-seleccionada" type="date" class="text-sm text-text-main border border-accent-border rounded px-2 py-
-</div>
-
-        <div class="overflow-x-auto">
+          <h3 id="titulo-seccion-clases-hoy" class="text-text-main text-xl font-bold">Clases</h3>
+          <!-- Campo de selección de fecha para filtrar clases -->
+          <input id="fecha-seleccionada" type="date"
+            class="text-sm text-text-main border border-accent-border rounded px-2 py-1" />
+        </div>
+        <div class=" overflow-x-auto">
           <table id="tabla-clases-hoy" class="w-full text-left">
             <thead>
               <tr class="bg-background-light/50">
@@ -333,30 +328,24 @@
                 </td>
                 <td class="px-6 py-5 text-right relative">
                   <button id="btn-menu-clase-1" type="button"
-                    class="js-menu-trigger text-text-main/40 hover:text-text-main transition-colors"
-                    data-menu="clase"
-                    data-class-id="1"
-                    aria-expanded="false"
-                    aria-controls="menu-clase-1">
+                    class="js-menu-trigger text-text-main/40 hover:text-text-main transition-colors" data-menu="clase"
+                    data-class-id="1" aria-expanded="false" aria-controls="menu-clase-1">
                     <span class="material-symbols-outlined">more_vert</span>
                   </button>
 
                   <div id="menu-clase-1"
                     class="js-menu hidden absolute right-6 top-12 w-48 bg-white border border-accent-border rounded-lg shadow-xl z-50 py-1 overflow-hidden"
-                    data-menu="clase"
-                    data-class-id="1">
+                    data-menu="clase" data-class-id="1">
                     <button id="btn-inscribir-alumno-clase-1" type="button"
                       class="js-action-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-text-main hover:bg-primary/10 transition-colors"
-                      data-action="inscribir-alumno"
-                      data-class-id="1">
+                      data-action="inscribir-alumno" data-class-id="1">
                       <span class="material-symbols-outlined text-lg">person_add</span>
                       Inscribir Alumno
                     </button>
 
                     <button id="btn-ver-alumnos-clase-1" type="button"
                       class="js-action-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-text-main hover:bg-primary/10 transition-colors"
-                      data-action="ver-alumnos"
-                      data-class-id="1">
+                      data-action="ver-alumnos" data-class-id="1">
                       <span class="material-symbols-outlined text-lg">visibility</span>
                       Ver Alumnos
                     </button>
@@ -365,8 +354,7 @@
 
                     <button id="btn-eliminar-clase-1" type="button"
                       class="js-action-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-rose-600 hover:bg-rose-50 transition-colors"
-                      data-action="eliminar-clase"
-                      data-class-id="1">
+                      data-action="eliminar-clase" data-class-id="1">
                       <span class="material-symbols-outlined text-lg">delete</span>
                       Eliminar Clase
                     </button>
@@ -396,30 +384,24 @@
                 </td>
                 <td class="px-6 py-5 text-right relative">
                   <button id="btn-menu-clase-2" type="button"
-                    class="js-menu-trigger text-text-main/40 hover:text-text-main transition-colors"
-                    data-menu="clase"
-                    data-class-id="2"
-                    aria-expanded="false"
-                    aria-controls="menu-clase-2">
+                    class="js-menu-trigger text-text-main/40 hover:text-text-main transition-colors" data-menu="clase"
+                    data-class-id="2" aria-expanded="false" aria-controls="menu-clase-2">
                     <span class="material-symbols-outlined">more_vert</span>
                   </button>
 
                   <div id="menu-clase-2"
                     class="js-menu hidden absolute right-6 top-12 w-48 bg-white border border-accent-border rounded-lg shadow-xl z-50 py-1 overflow-hidden"
-                    data-menu="clase"
-                    data-class-id="2">
+                    data-menu="clase" data-class-id="2">
                     <button id="btn-inscribir-alumno-clase-2" type="button"
                       class="js-action-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-text-main hover:bg-primary/10 transition-colors"
-                      data-action="inscribir-alumno"
-                      data-class-id="2">
+                      data-action="inscribir-alumno" data-class-id="2">
                       <span class="material-symbols-outlined text-lg">person_add</span>
                       Inscribir Alumno
                     </button>
 
                     <button id="btn-ver-alumnos-clase-2" type="button"
                       class="js-action-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-text-main hover:bg-primary/10 transition-colors"
-                      data-action="ver-alumnos"
-                      data-class-id="2">
+                      data-action="ver-alumnos" data-class-id="2">
                       <span class="material-symbols-outlined text-lg">visibility</span>
                       Ver Alumnos
                     </button>
@@ -428,8 +410,7 @@
 
                     <button id="btn-eliminar-clase-2" type="button"
                       class="js-action-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-rose-600 hover:bg-rose-50 transition-colors"
-                      data-action="eliminar-clase"
-                      data-class-id="2">
+                      data-action="eliminar-clase" data-class-id="2">
                       <span class="material-symbols-outlined text-lg">delete</span>
                       Eliminar Clase
                     </button>
@@ -459,30 +440,24 @@
                 </td>
                 <td class="px-6 py-5 text-right relative">
                   <button id="btn-menu-clase-3" type="button"
-                    class="js-menu-trigger text-text-main/40 hover:text-text-main transition-colors"
-                    data-menu="clase"
-                    data-class-id="3"
-                    aria-expanded="false"
-                    aria-controls="menu-clase-3">
+                    class="js-menu-trigger text-text-main/40 hover:text-text-main transition-colors" data-menu="clase"
+                    data-class-id="3" aria-expanded="false" aria-controls="menu-clase-3">
                     <span class="material-symbols-outlined">more_vert</span>
                   </button>
 
                   <div id="menu-clase-3"
                     class="js-menu hidden absolute right-6 top-12 w-48 bg-white border border-accent-border rounded-lg shadow-xl z-50 py-1 overflow-hidden"
-                    data-menu="clase"
-                    data-class-id="3">
+                    data-menu="clase" data-class-id="3">
                     <button id="btn-inscribir-alumno-clase-3" type="button"
                       class="js-action-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-text-main hover:bg-primary/10 transition-colors"
-                      data-action="inscribir-alumno"
-                      data-class-id="3">
+                      data-action="inscribir-alumno" data-class-id="3">
                       <span class="material-symbols-outlined text-lg">person_add</span>
                       Inscribir Alumno
                     </button>
 
                     <button id="btn-ver-alumnos-clase-3" type="button"
                       class="js-action-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-text-main hover:bg-primary/10 transition-colors"
-                      data-action="ver-alumnos"
-                      data-class-id="3">
+                      data-action="ver-alumnos" data-class-id="3">
                       <span class="material-symbols-outlined text-lg">visibility</span>
                       Ver Alumnos
                     </button>
@@ -491,8 +466,7 @@
 
                     <button id="btn-eliminar-clase-3" type="button"
                       class="js-action-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-rose-600 hover:bg-rose-50 transition-colors"
-                      data-action="eliminar-clase"
-                      data-class-id="3">
+                      data-action="eliminar-clase" data-class-id="3">
                       <span class="material-symbols-outlined text-lg">delete</span>
                       Eliminar Clase
                     </button>
@@ -561,8 +535,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label for="select-tipo-clase" class="block text-sm font-bold mb-1">Tipo de clase</label>
-            <select id="select-tipo-clase" name="tipo"
-              class="w-full border border-accent-border rounded-lg px-3 py-2">
+            <select id="select-tipo-clase" name="tipo" class="w-full border border-accent-border rounded-lg px-3 py-2">
               <option disabled selected>Seleccione disciplina</option>
               <option>Pole Dance</option>
               <option>Barre Sculpt</option>
@@ -574,8 +547,7 @@
           <div>
             <label for="input-instructor-clase" class="block text-sm font-bold mb-1">Instructor(a)</label>
             <input id="input-instructor-clase" name="instructor" type="text"
-              class="w-full border border-accent-border rounded-lg px-3 py-2"
-              placeholder="Nombre del instructor" />
+              class="w-full border border-accent-border rounded-lg px-3 py-2" placeholder="Nombre del instructor" />
           </div>
 
           <div>

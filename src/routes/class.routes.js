@@ -25,14 +25,7 @@ router.get("/class", async (req, res) => {
     // Ejecutar la consulta utilizando pool.query. Pasar ambos valores en un mismo array.
     const [rows] = await pool.query(
       `
-      SELECT 
-        start_time,
-        end_time,
-        class_type_name,
-        coach_user_name,
-        room_name,
-        capacity,
-        capacity_total
+      SELECT *
       FROM classes
       WHERE studio_id = ?
         AND class_date = ?
