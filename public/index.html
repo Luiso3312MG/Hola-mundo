@@ -14,7 +14,7 @@
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
     rel="stylesheet" />
 
-    
+
   <script id="tailwind-config">
     var color;
     async function loadUser() {
@@ -41,49 +41,45 @@
 
     loadUser();
 
-    async function colors(){
-    await fetch("/api/themes/themes")
-      .then(res => res.json())
-      .then(data => {
-        console.log(data,'dassstos');
-        
+    async function loadTheme() {
+      const res = await fetch("/api/themes/themes");
+      const data = await res.json();
 
-        color = data.themes[0];
-        console.log(color,'daw');
+      console.log(data, "dassstos");
 
-        return color;
-        //document.body.style.backgroundColor = color;
+      const color = data.themes[0];
 
-      }); }
+      console.log(color, "daw");
 
-      color=colors();
-     tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "primary": color.background_color,//NUDE
-            "background-light": color.background_light,//"BLANCO"
-            "background-dark": color.background_dark,//CARBON
-            "accent-border": color.line_color,//CHAMPANGE
-            "text-main": color,//CARBON
-          },
-          fontFamily: {
-            "display": ["Manrope", "sans-serif"]
-          },
-          borderRadius: {
-            "DEFAULT": "0.25rem",
-            "lg": "0.5rem",
-            "xl": "0.75rem",
-            "full": "9999px"
-          },
-        },
-      },
+      return color;
     }
 
-    
+    async function init() {
 
-    
+      const color = await loadTheme(); // 👈 aquí espera
+
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: color.background_color,
+              "background-light": color.background_light,
+              "background-dark": color.background_dark,
+              "accent-border": color.line_color,
+              "text-main": color.text_color
+            }
+          }
+        }
+      };
+
+    }
+
+    init();
+
+
+
+
   </script>
   <style>
     body {
