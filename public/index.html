@@ -28,7 +28,7 @@ document
   .getElementById("btnConsulta")
   .addEventListener("click", async () => {
 
-    const response = await fetch("/api/test/themes");
+    const response = await fetch("/api/themes/themes");
 
     const data = await response.json();
 
