@@ -417,4 +417,42 @@
   </div>
 </body>
 
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const buttons = document.querySelectorAll(".menu-btn");
+
+  buttons.forEach(btn => {
+
+    btn.addEventListener("click", (e) => {
+
+      e.stopPropagation();
+
+      const menu = btn.nextElementSibling;
+
+      // cerrar todos primero
+      document.querySelectorAll(".menu").forEach(m => {
+        if (m !== menu) m.classList.add("hidden");
+      });
+
+      menu.classList.toggle("hidden");
+
+    });
+
+  });
+
+  // cerrar si se hace click fuera
+  document.addEventListener("click", () => {
+
+    document.querySelectorAll(".menu").forEach(menu => {
+      menu.classList.add("hidden");
+    });
+
+  });
+
+});
+
+</script>
+
 </html>
