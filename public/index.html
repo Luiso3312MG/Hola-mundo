@@ -80,7 +80,6 @@
     async function initTheme() {
       await loadUser();
       await loadTheme();
-      
 
       tailwind.config = {
         darkMode: "class",
@@ -473,9 +472,9 @@
       });
     });
   </script>
-</body>
-<script>
-  var userId = 1;
+
+  <script>
+    var userId = 1;
     var date = new Date().toISOString().split('T')[0];
 
     // Aquí inserta el fragmento de código para configurar el input de fecha
@@ -502,7 +501,7 @@
           return;
         }
 
-       classData = await classRes.json();
+        classData = await classRes.json();
         console.log("Clases:", classData);
 
         if (classData?.length > 0) {
@@ -513,24 +512,23 @@
         console.error("Error cargando clase:", error);
       }
     }
-  await loadClasses();
-  const tbody = document.getElementById("tabla-body");
-console.log("imprimiendo desde aqui",classData);
-  classData.forEach(clase => {
 
-  const progreso = Math.round((clase.capacity / clase.capacity_total) * 100);
-
-  let colorBarra = "bg-blue-500";
-
-  if (clase.status === "LLENA") {
-    colorBarra = "bg-green-500";
-  }
-
-  if (clase.status === "CANCELADO") {
-    colorBarra = "bg-red-500";
-  }
-
-  const fila = `
+    // Cargar las clases de forma asíncrona y renderizarlas cuando la promesa se resuelva.
+    loadClasses().then(() => {
+      const tbody = document.getElementById("tabla-body");
+      // Limpiar la tabla antes de renderizar las clases para evitar duplicados.
+      tbody.innerHTML = "";
+      console.log("imprimiendo desde aqui", classData);
+      classData.forEach(clase => {
+        const progreso = Math.round((clase.capacity / clase.capacity_total) * 100);
+        let colorBarra = "bg-blue-500";
+        if (clase.status === "LLENA") {
+          colorBarra = "bg-green-500";
+        }
+        if (clase.status === "CANCELADO") {
+          colorBarra = "bg-red-500";
+        }
+        const fila = `
 <tr class="hover:bg-primary/5 transition-colors">
 
   <td class="px-6 py-5">
@@ -585,11 +583,11 @@ console.log("imprimiendo desde aqui",classData);
 
 </tr>
 `;
+        tbody.innerHTML += fila;
+      });
+    });
+  </script>
 
-  tbody.innerHTML += fila;
-
-});
-
-</script>
+</body>
 
 </html>
