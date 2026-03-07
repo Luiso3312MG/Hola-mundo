@@ -82,7 +82,7 @@
     async function loadClasses() {
   try {
     const classRes = await fetch("/api/classes/class",{
-       method: "POST",
+       method: "GET",
           headers: {
             "Content-Type": "application/json"
           },
