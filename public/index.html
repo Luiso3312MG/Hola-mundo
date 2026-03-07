@@ -57,7 +57,7 @@
       document.documentElement.style.setProperty(
         "--primary",
         color.background_color);
-        document.documentElement.style.setProperty(
+      document.documentElement.style.setProperty(
         "--text",
         color.background_color);
 
@@ -104,6 +104,7 @@
     }
   </style>
 </head>
+
 
 <body class="bg-background-light dark:bg-background-dark text-text-main">
   <div class="flex h-screen overflow-hidden">
@@ -251,10 +252,29 @@
                     <span class="text-sm font-bold text-text-main">10/12</span>
                   </div>
                 </td>
-                <td class="px-6 py-5 text-right">
+                <td class="px-6 py-5 text-right relative">
                   <button class="text-text-main/40 hover:text-text-main transition-colors">
                     <span class="material-symbols-outlined">more_vert</span>
                   </button>
+                  <div
+                    class="absolute right-6 top-12 w-48 bg-white border border-accent-border rounded-lg shadow-xl z-50 py-1 overflow-hidden">
+                    <button
+                      class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-text-main hover:bg-primary/10 transition-colors">
+                      <span class="material-symbols-outlined text-lg">person_add</span>
+                      Inscribir Alumno
+                    </button>
+                    <button
+                      class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-text-main hover:bg-primary/10 transition-colors">
+                      <span class="material-symbols-outlined text-lg">visibility</span>
+                      Ver Alumnos
+                    </button>
+                    <div class="h-px bg-accent-border/30 my-1"></div>
+                    <button
+                      class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-rose-600 hover:bg-rose-50 transition-colors">
+                      <span class="material-symbols-outlined text-lg">delete</span>
+                      Eliminar Clase
+                    </button>
+                  </div>
                 </td>
               </tr>
               <tr class="hover:bg-primary/5 transition-colors">
@@ -340,10 +360,213 @@
       </section>
       <!-- Footer Note -->
       <footer class="mt-12 text-center text-text-main/40 text-xs">
-        <p>© 2024 Studio Admin - Plataforma de Gestión de Estudios de Danza. Todos los derechos reservados.</p>
+        <p>© 2026 Studio Admin - Plataforma de Gestión. Todos los derechos reservados.</p>
       </footer>
     </main>
   </div>
+
+  <!DOCTYPE html>
+
+  <html lang="es">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap"
+      rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+      rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#f4827c",
+              "studio-light": "#F5E9E7",
+              "studio-accent": "#E7C7C2",
+              "studio-gold": "#D6C3A5",
+              "studio-text": "#2B2B2B",
+              "studio-subtext": "#6D6766",
+              "background-light": "#f8f6f6",
+              "background-dark": "#221110",
+            },
+            fontFamily: {
+              "display": ["Manrope", "sans-serif"]
+            },
+            borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+          },
+        },
+      }
+    </script>
+    <style>
+      body {
+        font-family: 'Manrope', sans-serif;
+      }
+
+      .premium-shadow {
+        box-shadow: 0 20px 50px rgba(43, 43, 43, 0.1);
+      }
+
+      .glass-effect {
+        backdrop-filter: blur(8px);
+        background-color: rgba(245, 233, 231, 0.8);
+      }
+    </style>
+  </head>
+
+  <body class="bg-background-light dark:bg-background-dark text-studio-text antialiased">
+    <!-- Dashboard Background Representation -->
+    <div class="fixed inset-0 z-0 opacity-40 pointer-events-none overflow-hidden">
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between border-b border-studio-accent/30 px-10 py-3">
+          <div class="flex items-center gap-8">
+            <div class="flex items-center gap-4 text-studio-text">
+              <span class="material-symbols-outlined text-primary">auto_awesome</span>
+              <h2 class="text-lg font-bold">Studio Dance Admin</h2>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <div class="w-8 h-8 rounded-full bg-studio-accent"></div>
+            <div class="w-8 h-8 rounded-full bg-studio-accent"></div>
+          </div>
+        </header>
+        <main class="p-10 grid grid-cols-3 gap-6">
+          <div class="h-40 bg-white rounded-xl border border-studio-accent/20"></div>
+          <div class="h-40 bg-white rounded-xl border border-studio-accent/20"></div>
+          <div class="h-40 bg-white rounded-xl border border-studio-accent/20"></div>
+          <div class="col-span-3 h-96 bg-white rounded-xl border border-studio-accent/20"></div>
+        </main>
+      </div>
+    </div>
+    <!-- Modal Overlay -->
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-studio-text/40 backdrop-blur-sm p-4">
+      <!-- Modal Window -->
+      <div
+        class="bg-studio-light w-full max-w-2xl rounded-xl premium-shadow overflow-hidden border border-studio-gold/20">
+        <!-- Modal Header -->
+        <div class="px-8 py-6 border-b border-studio-accent flex justify-between items-center">
+          <div>
+            <h2 class="text-2xl font-extrabold text-studio-text tracking-tight">Registrar Nueva Clase</h2>
+            <p class="text-studio-subtext text-sm mt-1">Configure los detalles de la sesión para el calendario.</p>
+          </div>
+          <button class="text-studio-subtext hover:text-studio-text transition-colors">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <!-- Modal Content / Form -->
+        <div class="p-8">
+          <form class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Class Name / Type -->
+              <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-studio-text uppercase tracking-wider">Tipo de Clase</label>
+                <div class="relative">
+                  <select
+                    class="w-full appearance-none bg-white border border-studio-accent rounded-lg px-4 py-3 text-studio-text focus:ring-2 focus:ring-studio-gold focus:border-studio-gold outline-none transition-all">
+                    <option disabled="" selected="" value="">Seleccione disciplina</option>
+                    <option value="pole">Pole Dance</option>
+                    <option value="barre">Barre</option>
+                    <option value="aerial">Danza Aérea</option>
+                  </select>
+                  <span
+                    class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-studio-subtext">expand_more</span>
+                </div>
+              </div>
+              <!-- Instructor -->
+              <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-studio-text uppercase tracking-wider">Instructor(a)</label>
+                <div class="relative">
+                  <input
+                    class="w-full bg-white border border-studio-accent rounded-lg px-4 py-3 text-studio-text focus:ring-2 focus:ring-studio-gold focus:border-studio-gold outline-none transition-all"
+                    placeholder="Nombre del docente" type="text" />
+                  <span
+                    class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-studio-subtext text-xl">person</span>
+                </div>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <!-- Date -->
+              <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-studio-text uppercase tracking-wider">Fecha</label>
+                <div class="relative">
+                  <input
+                    class="w-full bg-white border border-studio-accent rounded-lg px-4 py-3 text-studio-text focus:ring-2 focus:ring-studio-gold focus:border-studio-gold outline-none transition-all"
+                    type="date" />
+                </div>
+              </div>
+              <!-- Start Time -->
+              <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-studio-text uppercase tracking-wider">Inicio</label>
+                <div class="relative">
+                  <input
+                    class="w-full bg-white border border-studio-accent rounded-lg px-4 py-3 text-studio-text focus:ring-2 focus:ring-studio-gold focus:border-studio-gold outline-none transition-all"
+                    type="time" />
+                </div>
+              </div>
+              <!-- End Time -->
+              <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-studio-text uppercase tracking-wider">Término</label>
+                <div class="relative">
+                  <input
+                    class="w-full bg-white border border-studio-accent rounded-lg px-4 py-3 text-studio-text focus:ring-2 focus:ring-studio-gold focus:border-studio-gold outline-none transition-all"
+                    type="time" />
+                </div>
+              </div>
+            </div>
+            <!-- Capacity & Additional details -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-studio-text uppercase tracking-wider">Capacidad Máxima</label>
+                <div class="relative">
+                  <input
+                    class="w-full bg-white border border-studio-accent rounded-lg px-4 py-3 text-studio-text focus:ring-2 focus:ring-studio-gold focus:border-studio-gold outline-none transition-all"
+                    min="1" placeholder="Ej. 12" type="number" />
+                  <span
+                    class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-studio-subtext text-xl">groups</span>
+                </div>
+              </div>
+              <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-studio-text uppercase tracking-wider">Sala / Ubicación</label>
+                <div class="relative">
+                  <select
+                    class="w-full appearance-none bg-white border border-studio-accent rounded-lg px-4 py-3 text-studio-text focus:ring-2 focus:ring-studio-gold focus:border-studio-gold outline-none transition-all">
+                    <option>Studio Principal</option>
+                    <option>Sala B (Espejos)</option>
+                    <option>Área Aérea</option>
+                  </select>
+                  <span
+                    class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-studio-subtext">location_on</span>
+                </div>
+              </div>
+            </div>
+            <!-- Footer Actions -->
+            <div class="pt-6 border-t border-studio-accent flex flex-col md:flex-row gap-4 justify-end">
+              <button
+                class="px-6 py-3 rounded-lg text-studio-subtext font-bold hover:bg-studio-accent/20 transition-all uppercase text-xs tracking-widest"
+                type="button">
+                Cancelar
+              </button>
+              <button
+                class="bg-studio-accent hover:bg-studio-gold text-studio-text px-10 py-3 rounded-lg font-bold transition-all shadow-md active:scale-95 uppercase text-xs tracking-widest border border-studio-gold/20"
+                type="submit">
+                Crear Clase
+              </button>
+            </div>
+          </form>
+        </div>
+        <!-- Decorative Gold Line -->
+        <div class="h-1.5 w-full bg-gradient-to-r from-studio-gold via-studio-accent to-studio-gold"></div>
+      </div>
+    </div>
+  </body>
+
+  </html>
+
 </body>
 
 </html>
