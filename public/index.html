@@ -31,7 +31,8 @@ document
     const response = await fetch("/api/test/email");
 
     const data = await response.json();
-    console.log(data);
+    console.log('respo',response);
+    console.log('dataaaaaaaaaaaaaaa',data);
 
     if (!data.ok) {
       document.getElementById("resultado").innerText =

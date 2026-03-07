@@ -18,7 +18,7 @@ router.get("/email", async (req, res) => {
       });
     }
 
-    res.json({
+    return res.json({
       ok: true,
       email: rows[0].email
     });
