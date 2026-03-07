@@ -1,32 +1,47 @@
 <!DOCTYPE html>
-
 <html lang="es">
 
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap"
     rel="stylesheet" />
   <link
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
     rel="stylesheet" />
+
   <style>
     :root {
       --text: #000000;
       --primary: #111111;
-      /* valor por defecto */
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      color: var(--text);
+    }
+
+    .sidebar-item-active {
+      background-color: var(--primary);
     }
   </style>
 
-  <script id="tailwind-config">
-    var color;
+  <script id="script-tailwind-config">
+    let themeColors = {
+      background_color: "#E7C7C2",
+      background_light: "#F5E9E7",
+      background_dark: "#2B2B2B",
+      line_color: "#D6C3A5",
+      text_color: "#2B2B2B"
+    };
+
     async function loadUser() {
       try {
         const response = await fetch("/api/auth/me");
-        const data = await response.json();
+        await response.json();
 
         if (!response.ok) {
           window.location.href = "/login.html";
@@ -37,193 +52,211 @@
       }
     }
 
-    /*document.getElementById("logoutBtn").addEventListener("click", async () => {
-      await fetch("/api/auth/logout", {
-        method: "POST"
-      });
-
-      window.location.href = "/login.html";
-    });*/
-
-    loadUser();
-
     async function loadTheme() {
-      const res = await fetch("/api/themes/themes");
-      const data = await res.json();
+      try {
+        const res = await fetch("/api/themes/themes");
+        const data = await res.json();
 
-      console.log(data, "dassstos");
+        if (data?.themes?.length > 0) {
+          const color = data.themes[0];
 
-      const color = data.themes[0];
-      document.documentElement.style.setProperty(
-        "--primary",
-        color.background_color);
-      document.documentElement.style.setProperty(
-        "--text",
-        color.background_color);
+          themeColors = {
+            background_color: color.background_color || "#E7C7C2",
+            background_light: color.background_light || "#F5E9E7",
+            background_dark: color.background_dark || "#2B2B2B",
+            line_color: color.line_color || "#D6C3A5",
+            text_color: color.text_color || "#2B2B2B"
+          };
 
-      console.log(color, "daw");
-
-      return color;
+          document.documentElement.style.setProperty("--primary", themeColors.background_color);
+          document.documentElement.style.setProperty("--text", themeColors.text_color);
+        }
+      } catch (error) {
+        console.error("Error cargando tema:", error);
+      }
     }
 
-    async function init() {
-
-      let color = await loadTheme(); // 👈 aquí espera
+    async function initTheme() {
+      await loadUser();
+      await loadTheme();
 
       tailwind.config = {
         darkMode: "class",
         theme: {
           extend: {
             colors: {
-              primary: color.background_color,
-              "background-light": color.background_light,
-              "background-dark": color.background_dark,
-              "accent-border": color.line_color,
-              "text-main": color.text_color
+              primary: themeColors.background_color,
+              "background-light": themeColors.background_light,
+              "background-dark": themeColors.background_dark,
+              "accent-border": themeColors.line_color,
+              "text-main": themeColors.text_color
             }
           }
         }
       };
-
     }
 
-    init();
-
-
-
-
+    initTheme();
   </script>
-  <style>
-    body {
-      font-family: 'Manrope', sans-serif;
-      color: var(--text);
-    }
-
-    .sidebar-item-active {
-      background-color: var(--primary);
-    }
-  </style>
 </head>
 
-
 <body class="bg-background-light dark:bg-background-dark text-text-main">
-  <div class="flex h-screen overflow-hidden">
+  <div id="layout-dashboard" class="flex h-screen overflow-hidden">
+
     <!-- Sidebar -->
-    <aside class="w-64 flex flex-col border-r border-accent-border bg-background-light px-4 py-6">
-      <div class="flex items-center gap-3 px-2 mb-10">
-        <div class="size-10 rounded-full bg-primary flex items-center justify-center text-white"
+    <aside id="sidebar-principal"
+      class="w-64 flex flex-col border-r border-accent-border bg-background-light px-4 py-6">
+      <div id="contenedor-logo-estudio" class="flex items-center gap-3 px-2 mb-10">
+        <div id="logo-estudio"
+          class="size-10 rounded-full bg-primary flex items-center justify-center text-white"
           data-alt="Logo minimalista de estudio de danza aérea"
           style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuChF50UObrTykE0eCJ0nJlyZqNUPwaGMcJINJBuxuCO8c-jZXj6xZmePUiTKoeMfVb47YuRnnOxv3IW7MvbjvhI6j6WlWzGh23SlY9jayQzUxSqGW4i0L0eVwQ-XAZ0mSfXuT1Kd8-IyfHIi-u53xogg6kBEQWhvK_XmuLD5C9UPcCpqaFqn5jhGsCwWK1U3vivqzibrcaIkNaVy4KQuw8kCA3DMohqQQepd_KmnVoJC_zZVrPkL3F1MMrFdNf4-1Bns-U_DpTwMHJ8'); background-size: cover;">
         </div>
+
         <div class="flex flex-col">
-          <h1 class="text-text-main text-base font-bold leading-tight">Studio Admin</h1>
-          <p class="text-text-main/60 text-xs font-medium uppercase tracking-wider">Pole &amp; Aerial</p>
+          <h1 id="titulo-estudio-admin" class="text-text-main text-base font-bold leading-tight">Studio Admin</h1>
+          <p id="subtitulo-estudio-admin" class="text-text-main/60 text-xs font-medium uppercase tracking-wider">
+            Pole &amp; Aerial
+          </p>
         </div>
       </div>
-      <nav class="flex flex-col gap-2 grow">
-        <a class="sidebar-item-active flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors" href="#">
+
+      <nav id="nav-principal" class="flex flex-col gap-2 grow">
+        <a id="link-dashboard"
+          class="sidebar-item-active flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors"
+          href="#">
           <span class="material-symbols-outlined text-text-main">dashboard</span>
           <span class="text-text-main text-sm font-semibold">Dashboard</span>
         </a>
-        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 transition-colors" href="#">
+
+        <a id="link-alumnos"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 transition-colors"
+          href="#">
           <span class="material-symbols-outlined text-text-main">group</span>
           <span class="text-text-main text-sm font-medium">Alumnos</span>
         </a>
-        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 transition-colors" href="#">
+
+        <a id="link-horario"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 transition-colors"
+          href="#">
           <span class="material-symbols-outlined text-text-main">calendar_month</span>
           <span class="text-text-main text-sm font-medium">Horario</span>
         </a>
-        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 transition-colors" href="#">
+
+        <a id="link-reportes"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-primary/20 transition-colors"
+          href="#">
           <span class="material-symbols-outlined text-text-main">analytics</span>
           <span class="text-text-main text-sm font-medium">Reportes</span>
         </a>
       </nav>
-      <div class="mt-auto pt-6 border-t border-accent-border">
+
+      <div id="footer-sidebar-admin" class="mt-auto pt-6 border-t border-accent-border">
         <div class="flex items-center gap-3 px-2">
-          <div class="size-8 rounded-full bg-accent-border flex items-center justify-center overflow-hidden">
-            <img alt="Admin avatar" class="w-full h-full object-cover" data-alt="Foto de perfil del administrador"
+          <div id="contenedor-avatar-admin"
+            class="size-8 rounded-full bg-accent-border flex items-center justify-center overflow-hidden">
+            <img id="img-avatar-admin" alt="Admin avatar" class="w-full h-full object-cover"
+              data-alt="Foto de perfil del administrador"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtqjbAJVy5wJGRfFYHfE2ZP5epOntDQjmQvkc-MUy1OqB09Nf4UEc_yGtMJ57wsbYiuUIFcx_XjaS-C7Nng0wCqI5CCyruaPb4bttJTo-fzajIxbqC1e8rKr--jfNxsfSNDz2VYnqhR1zgNocOpg9iaVyZvYyhGBcc9MhdRnuIfXA1lRlGF7ypidATcdNULid9dbX9XSDv3LrKjSjVcnHtfaxk5UvDtUYILkbipdy2pgogiNTeQ0wpU2xgbUE9Cr2YuXayl41gPzj1" />
           </div>
+
           <div class="flex flex-col overflow-hidden">
-            <p class="text-text-main text-sm font-semibold truncate">Lucía Méndez</p>
-            <p class="text-text-main/50 text-xs truncate">Admin Principal</p>
+            <p id="nombre-admin" class="text-text-main text-sm font-semibold truncate">Lucía Méndez</p>
+            <p id="rol-admin" class="text-text-main/50 text-xs truncate">Admin Principal</p>
           </div>
-          <span class="material-symbols-outlined text-text-main/40 text-sm ml-auto cursor-pointer">settings</span>
+
+          <button id="btn-configuracion-admin" type="button"
+            class="material-symbols-outlined text-text-main/40 text-sm ml-auto cursor-pointer bg-transparent border-0">
+            settings
+          </button>
         </div>
       </div>
     </aside>
+
     <!-- Main Content -->
-    <main class="flex-1 overflow-y-auto bg-background-light p-8">
-      <header class="mb-8 flex justify-between items-end">
+    <main id="main-dashboard" class="flex-1 overflow-y-auto bg-background-light p-8">
+      <header id="header-dashboard" class="mb-8 flex justify-between items-end">
         <div>
-          <h2 class="text-text-main text-4xl font-black leading-tight tracking-tight">Dashboard</h2>
-          <p class="text-text-main/60 text-lg font-normal">Resumen de actividad para hoy</p>
+          <h2 id="titulo-dashboard" class="text-text-main text-4xl font-black leading-tight tracking-tight">
+            Dashboard
+          </h2>
+          <p id="subtitulo-dashboard" class="text-text-main/60 text-lg font-normal">
+            Resumen de actividad para hoy
+          </p>
         </div>
-        <div class="flex gap-3">
-          <button
+
+        <div id="acciones-dashboard" class="flex gap-3">
+          <button id="btn-exportar-dashboard" type="button"
             class="flex items-center gap-2 bg-white border border-accent-border px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-50 transition-all">
-            <span class="material-symbols-outlined text-sm">download</span> Exportar
+            <span class="material-symbols-outlined text-sm">download</span>
+            Exportar
           </button>
-          <button
-            class="flex items-center gap-2 bg-primary px-4 py-2 rounded-lg text-sm font-bold text-text-main shadow-sm hover:brightness-95 transition-all"
-            onclick="document.getElementById('modal-nueva-clase').classList.remove('hidden')">
-            <span class="material-symbols-outlined text-sm">add</span> Nueva Clase
+
+          <button id="btn-abrir-modal-nueva-clase" type="button"
+            class="flex items-center gap-2 bg-primary px-4 py-2 rounded-lg text-sm font-bold text-text-main shadow-sm hover:brightness-95 transition-all">
+            <span class="material-symbols-outlined text-sm">add</span>
+            Nueva Clase
           </button>
         </div>
       </header>
+
       <!-- Stats Grid -->
-      <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        <div
+      <section id="seccion-estadisticas" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div id="card-total-alumnos"
           class="bg-white rounded-xl p-6 border border-accent-border shadow-sm flex flex-col justify-between h-32 relative overflow-hidden">
           <div class="z-10">
             <p class="text-text-main/60 text-sm font-bold uppercase tracking-wide">Total Alumnos</p>
-            <p class="text-text-main text-3xl font-black mt-1">124</p>
+            <p id="valor-total-alumnos" class="text-text-main text-3xl font-black mt-1">124</p>
           </div>
           <div class="z-10 flex items-center text-green-600 text-sm font-bold mt-2">
-            <span class="material-symbols-outlined text-sm mr-1">trending_up</span> +5% <span
-              class="text-text-main/40 font-normal ml-1">este mes</span>
+            <span class="material-symbols-outlined text-sm mr-1">trending_up</span> +5%
+            <span class="text-text-main/40 font-normal ml-1">este mes</span>
           </div>
           <div class="absolute -right-4 -bottom-4 opacity-5 pointer-events-none">
             <span class="material-symbols-outlined text-[80px]">groups</span>
           </div>
         </div>
-        <div
+
+        <div id="card-clases-hoy"
           class="bg-white rounded-xl p-6 border border-accent-border shadow-sm flex flex-col justify-between h-32 relative overflow-hidden">
           <div class="z-10">
             <p class="text-text-main/60 text-sm font-bold uppercase tracking-wide">Clases Hoy</p>
-            <p class="text-text-main text-3xl font-black mt-1">8</p>
+            <p id="valor-clases-hoy" class="text-text-main text-3xl font-black mt-1">8</p>
           </div>
           <div class="z-10 flex items-center text-rose-500 text-sm font-bold mt-2">
-            <span class="material-symbols-outlined text-sm mr-1">trending_down</span> -2% <span
-              class="text-text-main/40 font-normal ml-1">vs ayer</span>
+            <span class="material-symbols-outlined text-sm mr-1">trending_down</span> -2%
+            <span class="text-text-main/40 font-normal ml-1">vs ayer</span>
           </div>
           <div class="absolute -right-4 -bottom-4 opacity-5 pointer-events-none">
             <span class="material-symbols-outlined text-[80px]">history_edu</span>
           </div>
         </div>
-        <div
+
+        <div id="card-creditos-asignados"
           class="bg-white rounded-xl p-6 border border-accent-border shadow-sm flex flex-col justify-between h-32 relative overflow-hidden">
           <div class="z-10">
             <p class="text-text-main/60 text-sm font-bold uppercase tracking-wide">Créditos Asignados</p>
-            <p class="text-text-main text-3xl font-black mt-1">450</p>
+            <p id="valor-creditos-asignados" class="text-text-main text-3xl font-black mt-1">450</p>
           </div>
           <div class="z-10 flex items-center text-green-600 text-sm font-bold mt-2">
-            <span class="material-symbols-outlined text-sm mr-1">trending_up</span> +12% <span
-              class="text-text-main/40 font-normal ml-1">esta semana</span>
+            <span class="material-symbols-outlined text-sm mr-1">trending_up</span> +12%
+            <span class="text-text-main/40 font-normal ml-1">esta semana</span>
           </div>
           <div class="absolute -right-4 -bottom-4 opacity-5 pointer-events-none">
             <span class="material-symbols-outlined text-[80px]">confirmation_number</span>
           </div>
         </div>
       </section>
+
       <!-- Classes Section -->
-      <section class="bg-white rounded-xl border border-accent-border shadow-sm overflow-hidden">
+      <section id="seccion-clases-hoy" class="bg-white rounded-xl border border-accent-border shadow-sm overflow-hidden">
         <div class="px-6 py-5 border-b border-accent-border flex justify-between items-center">
-          <h3 class="text-text-main text-xl font-bold">Clases de Hoy</h3>
-          <span class="text-text-main/50 text-sm">Lunes, 24 Mayo</span>
+          <h3 id="titulo-seccion-clases-hoy" class="text-text-main text-xl font-bold">Clases de Hoy</h3>
+          <span id="fecha-clases-hoy" class="text-text-main/50 text-sm">Lunes, 24 Mayo</span>
         </div>
+
         <div class="overflow-x-auto">
-          <table class="w-full text-left">
+          <table id="tabla-clases-hoy" class="w-full text-left">
             <thead>
               <tr class="bg-background-light/50">
                 <th class="px-6 py-4 text-text-main/60 text-xs font-bold uppercase tracking-wider">Horario</th>
@@ -233,152 +266,261 @@
                 <th class="px-6 py-4"></th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-accent-border/40">
-              <tr class="hover:bg-primary/5 transition-colors">
+
+            <tbody id="tbody-clases-hoy" class="divide-y divide-accent-border/40">
+
+              <!-- Clase 1 -->
+              <tr id="fila-clase-1" class="hover:bg-primary/5 transition-colors" data-class-id="1">
                 <td class="px-6 py-5">
-                  <span class="text-text-main font-bold">09:00 - 10:00</span>
+                  <span id="horario-clase-1" class="text-text-main font-bold">09:00 - 10:00</span>
                 </td>
                 <td class="px-6 py-5">
                   <div class="flex items-center gap-2">
                     <span class="size-2 rounded-full bg-primary"></span>
-                    <span class="text-text-main font-semibold">Pole Dance Principiantes</span>
+                    <span id="nombre-clase-1" class="text-text-main font-semibold">Pole Dance Principiantes</span>
                   </div>
                 </td>
-                <td class="px-6 py-5 text-text-main/80 font-medium">Elena R.</td>
+                <td id="instructor-clase-1" class="px-6 py-5 text-text-main/80 font-medium">Elena R.</td>
                 <td class="px-6 py-5">
                   <div class="flex items-center gap-2">
                     <div class="w-20 bg-background-light rounded-full h-1.5 overflow-hidden">
-                      <div class="bg-primary h-full w-[83%]"></div>
+                      <div id="barra-inscritos-clase-1" class="bg-primary h-full w-[83%]"></div>
                     </div>
-                    <span class="text-sm font-bold text-text-main">10/12</span>
+                    <span id="inscritos-clase-1" class="text-sm font-bold text-text-main">10/12</span>
                   </div>
                 </td>
                 <td class="px-6 py-5 text-right relative">
-
-                  <button class="menu-btn text-text-main/40 hover:text-text-main transition-colors">
+                  <button id="btn-menu-clase-1" type="button"
+                    class="js-menu-trigger text-text-main/40 hover:text-text-main transition-colors"
+                    data-menu="clase"
+                    data-class-id="1"
+                    aria-expanded="false"
+                    aria-controls="menu-clase-1">
                     <span class="material-symbols-outlined">more_vert</span>
                   </button>
 
-                  <div
-                    class="menu hidden absolute right-6 top-12 w-48 bg-white border border-accent-border rounded-lg shadow-xl z-50 py-1 overflow-hidden">
-                    <button
-                      class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-text-main hover:bg-primary/10 transition-colors">
+                  <div id="menu-clase-1"
+                    class="js-menu hidden absolute right-6 top-12 w-48 bg-white border border-accent-border rounded-lg shadow-xl z-50 py-1 overflow-hidden"
+                    data-menu="clase"
+                    data-class-id="1">
+                    <button id="btn-inscribir-alumno-clase-1" type="button"
+                      class="js-action-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-text-main hover:bg-primary/10 transition-colors"
+                      data-action="inscribir-alumno"
+                      data-class-id="1">
                       <span class="material-symbols-outlined text-lg">person_add</span>
                       Inscribir Alumno
                     </button>
-                    <button
-                      class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-text-main hover:bg-primary/10 transition-colors">
+
+                    <button id="btn-ver-alumnos-clase-1" type="button"
+                      class="js-action-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-text-main hover:bg-primary/10 transition-colors"
+                      data-action="ver-alumnos"
+                      data-class-id="1">
                       <span class="material-symbols-outlined text-lg">visibility</span>
                       Ver Alumnos
                     </button>
+
                     <div class="h-px bg-accent-border/30 my-1"></div>
-                    <button
-                      class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-rose-600 hover:bg-rose-50 transition-colors">
+
+                    <button id="btn-eliminar-clase-1" type="button"
+                      class="js-action-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-rose-600 hover:bg-rose-50 transition-colors"
+                      data-action="eliminar-clase"
+                      data-class-id="1">
                       <span class="material-symbols-outlined text-lg">delete</span>
                       Eliminar Clase
                     </button>
                   </div>
                 </td>
               </tr>
-              <tr class="hover:bg-primary/5 transition-colors">
+
+              <!-- Clase 2 -->
+              <tr id="fila-clase-2" class="hover:bg-primary/5 transition-colors" data-class-id="2">
                 <td class="px-6 py-5">
-                  <span class="text-text-main font-bold">11:30 - 12:30</span>
+                  <span id="horario-clase-2" class="text-text-main font-bold">11:30 - 12:30</span>
                 </td>
                 <td class="px-6 py-5">
                   <div class="flex items-center gap-2">
                     <span class="size-2 rounded-full bg-[#C2D6E7]"></span>
-                    <span class="text-text-main font-semibold">Barre Sculpt</span>
+                    <span id="nombre-clase-2" class="text-text-main font-semibold">Barre Sculpt</span>
                   </div>
                 </td>
-                <td class="px-6 py-5 text-text-main/80 font-medium">Sofia G.</td>
+                <td id="instructor-clase-2" class="px-6 py-5 text-text-main/80 font-medium">Sofia G.</td>
                 <td class="px-6 py-5">
                   <div class="flex items-center gap-2">
                     <div class="w-20 bg-background-light rounded-full h-1.5 overflow-hidden">
-                      <div class="bg-[#C2D6E7] h-full w-[53%]"></div>
+                      <div id="barra-inscritos-clase-2" class="bg-[#C2D6E7] h-full w-[53%]"></div>
                     </div>
-                    <span class="text-sm font-bold text-text-main">8/15</span>
+                    <span id="inscritos-clase-2" class="text-sm font-bold text-text-main">8/15</span>
                   </div>
                 </td>
-                <td class="px-6 py-5 text-right">
-                  <button class="text-text-main/40 hover:text-text-main transition-colors">
+                <td class="px-6 py-5 text-right relative">
+                  <button id="btn-menu-clase-2" type="button"
+                    class="js-menu-trigger text-text-main/40 hover:text-text-main transition-colors"
+                    data-menu="clase"
+                    data-class-id="2"
+                    aria-expanded="false"
+                    aria-controls="menu-clase-2">
                     <span class="material-symbols-outlined">more_vert</span>
                   </button>
+
+                  <div id="menu-clase-2"
+                    class="js-menu hidden absolute right-6 top-12 w-48 bg-white border border-accent-border rounded-lg shadow-xl z-50 py-1 overflow-hidden"
+                    data-menu="clase"
+                    data-class-id="2">
+                    <button id="btn-inscribir-alumno-clase-2" type="button"
+                      class="js-action-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-text-main hover:bg-primary/10 transition-colors"
+                      data-action="inscribir-alumno"
+                      data-class-id="2">
+                      <span class="material-symbols-outlined text-lg">person_add</span>
+                      Inscribir Alumno
+                    </button>
+
+                    <button id="btn-ver-alumnos-clase-2" type="button"
+                      class="js-action-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-text-main hover:bg-primary/10 transition-colors"
+                      data-action="ver-alumnos"
+                      data-class-id="2">
+                      <span class="material-symbols-outlined text-lg">visibility</span>
+                      Ver Alumnos
+                    </button>
+
+                    <div class="h-px bg-accent-border/30 my-1"></div>
+
+                    <button id="btn-eliminar-clase-2" type="button"
+                      class="js-action-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-rose-600 hover:bg-rose-50 transition-colors"
+                      data-action="eliminar-clase"
+                      data-class-id="2">
+                      <span class="material-symbols-outlined text-lg">delete</span>
+                      Eliminar Clase
+                    </button>
+                  </div>
                 </td>
               </tr>
-              <tr class="hover:bg-primary/5 transition-colors">
+
+              <!-- Clase 3 -->
+              <tr id="fila-clase-3" class="hover:bg-primary/5 transition-colors" data-class-id="3">
                 <td class="px-6 py-5">
-                  <span class="text-text-main font-bold">17:00 - 18:00</span>
+                  <span id="horario-clase-3" class="text-text-main font-bold">17:00 - 18:00</span>
                 </td>
                 <td class="px-6 py-5">
                   <div class="flex items-center gap-2">
                     <span class="size-2 rounded-full bg-[#D6E7C2]"></span>
-                    <span class="text-text-main font-semibold">Aerial Silks</span>
+                    <span id="nombre-clase-3" class="text-text-main font-semibold">Aerial Silks</span>
                   </div>
                 </td>
-                <td class="px-6 py-5 text-text-main/80 font-medium">Marco P.</td>
+                <td id="instructor-clase-3" class="px-6 py-5 text-text-main/80 font-medium">Marco P.</td>
                 <td class="px-6 py-5">
                   <div class="flex items-center gap-2">
                     <div class="w-20 bg-background-light rounded-full h-1.5 overflow-hidden">
-                      <div class="bg-[#D6E7C2] h-full w-[75%]"></div>
+                      <div id="barra-inscritos-clase-3" class="bg-[#D6E7C2] h-full w-[75%]"></div>
                     </div>
-                    <span class="text-sm font-bold text-text-main">6/8</span>
+                    <span id="inscritos-clase-3" class="text-sm font-bold text-text-main">6/8</span>
                   </div>
                 </td>
-                <td class="px-6 py-5 text-right">
-                  <button class="text-text-main/40 hover:text-text-main transition-colors">
+                <td class="px-6 py-5 text-right relative">
+                  <button id="btn-menu-clase-3" type="button"
+                    class="js-menu-trigger text-text-main/40 hover:text-text-main transition-colors"
+                    data-menu="clase"
+                    data-class-id="3"
+                    aria-expanded="false"
+                    aria-controls="menu-clase-3">
                     <span class="material-symbols-outlined">more_vert</span>
                   </button>
+
+                  <div id="menu-clase-3"
+                    class="js-menu hidden absolute right-6 top-12 w-48 bg-white border border-accent-border rounded-lg shadow-xl z-50 py-1 overflow-hidden"
+                    data-menu="clase"
+                    data-class-id="3">
+                    <button id="btn-inscribir-alumno-clase-3" type="button"
+                      class="js-action-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-text-main hover:bg-primary/10 transition-colors"
+                      data-action="inscribir-alumno"
+                      data-class-id="3">
+                      <span class="material-symbols-outlined text-lg">person_add</span>
+                      Inscribir Alumno
+                    </button>
+
+                    <button id="btn-ver-alumnos-clase-3" type="button"
+                      class="js-action-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-text-main hover:bg-primary/10 transition-colors"
+                      data-action="ver-alumnos"
+                      data-class-id="3">
+                      <span class="material-symbols-outlined text-lg">visibility</span>
+                      Ver Alumnos
+                    </button>
+
+                    <div class="h-px bg-accent-border/30 my-1"></div>
+
+                    <button id="btn-eliminar-clase-3" type="button"
+                      class="js-action-btn w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-rose-600 hover:bg-rose-50 transition-colors"
+                      data-action="eliminar-clase"
+                      data-class-id="3">
+                      <span class="material-symbols-outlined text-lg">delete</span>
+                      Eliminar Clase
+                    </button>
+                  </div>
                 </td>
               </tr>
-              <tr class="hover:bg-primary/5 transition-colors">
+
+              <!-- Clase 4 -->
+              <tr id="fila-clase-4" class="hover:bg-primary/5 transition-colors" data-class-id="4">
                 <td class="px-6 py-5">
-                  <span class="text-text-main font-bold">19:00 - 20:00</span>
+                  <span id="horario-clase-4" class="text-text-main font-bold">19:00 - 20:00</span>
                 </td>
                 <td class="px-6 py-5">
                   <div class="flex items-center gap-2">
                     <span class="size-2 rounded-full bg-primary"></span>
-                    <span class="text-text-main font-semibold">Pole Exotic</span>
+                    <span id="nombre-clase-4" class="text-text-main font-semibold">Pole Exotic</span>
                   </div>
                 </td>
-                <td class="px-6 py-5 text-text-main/80 font-medium">Elena R.</td>
+                <td id="instructor-clase-4" class="px-6 py-5 text-text-main/80 font-medium">Elena R.</td>
                 <td class="px-6 py-5">
                   <div class="flex items-center gap-2">
                     <div class="w-20 bg-background-light rounded-full h-1.5 overflow-hidden">
-                      <div class="bg-primary h-full w-full"></div>
+                      <div id="barra-inscritos-clase-4" class="bg-primary h-full w-full"></div>
                     </div>
-                    <span class="text-sm font-bold text-text-main">12/12</span>
+                    <span id="inscritos-clase-4" class="text-sm font-bold text-text-main">12/12</span>
                   </div>
                 </td>
                 <td class="px-6 py-5 text-right">
-                  <span
-                    class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-rose-100 text-rose-700">LLENO</span>
+                  <span id="estado-clase-4"
+                    class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-rose-100 text-rose-700">
+                    LLENO
+                  </span>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
+
         <div class="px-6 py-4 bg-background-light/20 text-center">
-          <a class="text-sm font-bold text-text-main hover:underline" href="#">Ver todas las clases de la semana</a>
+          <a id="link-ver-semana-clases" class="text-sm font-bold text-text-main hover:underline" href="#">
+            Ver todas las clases de la semana
+          </a>
         </div>
       </section>
-      <!-- Footer Note -->
-      <footer class="mt-12 text-center text-text-main/40 text-xs">
+
+      <footer id="footer-dashboard" class="mt-12 text-center text-text-main/40 text-xs">
         <p>© 2024 Studio Admin - Plataforma de Gestión de Estudios de Danza. Todos los derechos reservados.</p>
       </footer>
     </main>
   </div>
+
   <!-- Modal Registrar Nueva Clase -->
   <div id="modal-nueva-clase" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-    <div class="bg-white dark:bg-slate-800 w-full max-w-2xl rounded-xl shadow-lg p-6 relative">
-      <!-- Close button -->
-      <button type="button" class="absolute top-4 right-4 text-text-main/50 hover:text-text-main"
-        onclick="document.getElementById('modal-nueva-clase').classList.add('hidden')">×</button>
-      <h2 class="text-text-main text-2xl font-bold mb-4">Registrar Nueva Clase</h2>
-      <form>
+    <div id="contenedor-modal-nueva-clase"
+      class="bg-white dark:bg-slate-800 w-full max-w-2xl rounded-xl shadow-lg p-6 relative">
+      <button id="btn-cerrar-modal-nueva-clase" type="button"
+        class="absolute top-4 right-4 text-text-main/50 hover:text-text-main">
+        ×
+      </button>
+
+      <h2 id="titulo-modal-nueva-clase" class="text-text-main text-2xl font-bold mb-4">
+        Registrar Nueva Clase
+      </h2>
+
+      <form id="form-nueva-clase">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label for="tipo" class="block text-sm font-bold mb-1">Tipo de clase</label>
-            <select id="tipo" name="tipo" class="w-full border border-accent-border rounded-lg px-3 py-2">
+            <label for="select-tipo-clase" class="block text-sm font-bold mb-1">Tipo de clase</label>
+            <select id="select-tipo-clase" name="tipo"
+              class="w-full border border-accent-border rounded-lg px-3 py-2">
               <option disabled selected>Seleccione disciplina</option>
               <option>Pole Dance</option>
               <option>Barre Sculpt</option>
@@ -386,73 +528,171 @@
               <option>Pole Exotic</option>
             </select>
           </div>
+
           <div>
-            <label for="instructor" class="block text-sm font-bold mb-1">Instructor(a)</label>
-            <input id="instructor" name="instructor" type="text"
-              class="w-full border border-accent-border rounded-lg px-3 py-2" placeholder="Nombre del instructor" />
+            <label for="input-instructor-clase" class="block text-sm font-bold mb-1">Instructor(a)</label>
+            <input id="input-instructor-clase" name="instructor" type="text"
+              class="w-full border border-accent-border rounded-lg px-3 py-2"
+              placeholder="Nombre del instructor" />
           </div>
+
           <div>
-            <label for="fecha" class="block text-sm font-bold mb-1">Fecha</label>
-            <input id="fecha" name="fecha" type="date"
+            <label for="input-fecha-clase" class="block text-sm font-bold mb-1">Fecha</label>
+            <input id="input-fecha-clase" name="fecha" type="date"
               class="w-full border border-accent-border rounded-lg px-3 py-2" />
           </div>
+
           <div>
-            <label for="inicio" class="block text-sm font-bold mb-1">Inicio</label>
-            <input id="inicio" name="inicio" type="time"
+            <label for="input-hora-inicio-clase" class="block text-sm font-bold mb-1">Inicio</label>
+            <input id="input-hora-inicio-clase" name="inicio" type="time"
               class="w-full border border-accent-border rounded-lg px-3 py-2" />
           </div>
+
           <div>
-            <label for="fin" class="block text-sm font-bold mb-1">Término</label>
-            <input id="fin" name="fin" type="time" class="w-full border border-accent-border rounded-lg px-3 py-2" />
+            <label for="input-hora-fin-clase" class="block text-sm font-bold mb-1">Término</label>
+            <input id="input-hora-fin-clase" name="fin" type="time"
+              class="w-full border border-accent-border rounded-lg px-3 py-2" />
           </div>
         </div>
+
         <div class="flex justify-end gap-3 mt-6">
-          <button type="button" class="px-4 py-2 rounded-lg bg-gray-200 text-text-main hover:bg-gray-300"
-            onclick="document.getElementById('modal-nueva-clase').classList.add('hidden')">Cancelar</button>
-          <button type="submit"
-            class="px-4 py-2 rounded-lg bg-primary text-text-main font-bold hover:brightness-95">Crear Clase</button>
+          <button id="btn-cancelar-nueva-clase" type="button"
+            class="px-4 py-2 rounded-lg bg-gray-200 text-text-main hover:bg-gray-300">
+            Cancelar
+          </button>
+
+          <button id="btn-guardar-nueva-clase" type="submit"
+            class="px-4 py-2 rounded-lg bg-primary text-text-main font-bold hover:brightness-95">
+            Crear Clase
+          </button>
         </div>
       </form>
     </div>
   </div>
-</body>
 
-<script>
+  <script id="script-modal-nueva-clase">
+    document.addEventListener("DOMContentLoaded", () => {
+      const modal = document.getElementById("modal-nueva-clase");
+      const btnAbrir = document.getElementById("btn-abrir-modal-nueva-clase");
+      const btnCerrar = document.getElementById("btn-cerrar-modal-nueva-clase");
+      const btnCancelar = document.getElementById("btn-cancelar-nueva-clase");
+      const contenedorModal = document.getElementById("contenedor-modal-nueva-clase");
 
-document.addEventListener("DOMContentLoaded", () => {
+      function abrirModal() {
+        modal.classList.remove("hidden");
+      }
 
-  const buttons = document.querySelectorAll(".menu-btn");
+      function cerrarModal() {
+        modal.classList.add("hidden");
+      }
 
-  buttons.forEach(btn => {
+      btnAbrir?.addEventListener("click", abrirModal);
+      btnCerrar?.addEventListener("click", cerrarModal);
+      btnCancelar?.addEventListener("click", cerrarModal);
 
-    btn.addEventListener("click", (e) => {
-
-      e.stopPropagation();
-
-      const menu = btn.nextElementSibling;
-
-      // cerrar todos primero
-      document.querySelectorAll(".menu").forEach(m => {
-        if (m !== menu) m.classList.add("hidden");
+      modal?.addEventListener("click", (event) => {
+        if (event.target === modal) {
+          cerrarModal();
+        }
       });
 
-      menu.classList.toggle("hidden");
-
+      contenedorModal?.addEventListener("click", (event) => {
+        event.stopPropagation();
+      });
     });
+  </script>
 
-  });
+  <script id="script-ui-clases">
+    document.addEventListener("DOMContentLoaded", () => {
+      const menuTriggers = document.querySelectorAll(".js-menu-trigger");
+      const menus = document.querySelectorAll(".js-menu");
+      const actionButtons = document.querySelectorAll(".js-action-btn");
 
-  // cerrar si se hace click fuera
-  document.addEventListener("click", () => {
+      function closeAllMenus() {
+        menus.forEach(menu => menu.classList.add("hidden"));
+        menuTriggers.forEach(trigger => trigger.setAttribute("aria-expanded", "false"));
+      }
 
-    document.querySelectorAll(".menu").forEach(menu => {
-      menu.classList.add("hidden");
+      menuTriggers.forEach(trigger => {
+        trigger.addEventListener("click", (event) => {
+          event.stopPropagation();
+
+          const classId = trigger.dataset.classId;
+          const menu = document.querySelector(`.js-menu[data-class-id="${classId}"]`);
+
+          if (!menu) return;
+
+          const isHidden = menu.classList.contains("hidden");
+
+          closeAllMenus();
+
+          if (isHidden) {
+            menu.classList.remove("hidden");
+            trigger.setAttribute("aria-expanded", "true");
+          }
+        });
+      });
+
+      menus.forEach(menu => {
+        menu.addEventListener("click", (event) => {
+          event.stopPropagation();
+        });
+      });
+
+      document.addEventListener("click", () => {
+        closeAllMenus();
+      });
+
+      actionButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          const action = button.dataset.action;
+          const classId = button.dataset.classId;
+
+          console.log("Acción:", action, "Clase:", classId);
+
+          if (action === "inscribir-alumno") {
+            console.log(`Abrir flujo para inscribir alumno en clase ${classId}`);
+          }
+
+          if (action === "ver-alumnos") {
+            console.log(`Ver alumnos de la clase ${classId}`);
+          }
+
+          if (action === "eliminar-clase") {
+            console.log(`Eliminar clase ${classId}`);
+          }
+
+          closeAllMenus();
+        });
+      });
     });
+  </script>
 
-  });
+  <script id="script-form-nueva-clase">
+    document.addEventListener("DOMContentLoaded", () => {
+      const formNuevaClase = document.getElementById("form-nueva-clase");
 
-});
+      formNuevaClase?.addEventListener("submit", (event) => {
+        event.preventDefault();
 
-</script>
+        const tipo = document.getElementById("select-tipo-clase").value;
+        const instructor = document.getElementById("input-instructor-clase").value;
+        const fecha = document.getElementById("input-fecha-clase").value;
+        const horaInicio = document.getElementById("input-hora-inicio-clase").value;
+        const horaFin = document.getElementById("input-hora-fin-clase").value;
+
+        console.log("Nueva clase:", {
+          tipo,
+          instructor,
+          fecha,
+          horaInicio,
+          horaFin
+        });
+
+        document.getElementById("modal-nueva-clase").classList.add("hidden");
+      });
+    });
+  </script>
+</body>
 
 </html>
