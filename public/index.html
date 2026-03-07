@@ -36,6 +36,7 @@
       line_color: "#D6C3A5",
       text_color: "#2B2B2B"
     };
+    let classData;
 
     async function loadUser() {
       try {
@@ -103,7 +104,7 @@
           return;
         }
 
-        const classData = await classRes.json();
+       classData = await classRes.json();
         console.log("Clases:", classData);
 
         if (classData?.length > 0) {
