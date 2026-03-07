@@ -42,7 +42,7 @@
     loadUser();
 
     async function colors(){
-    fetch("/api/themes/themes")
+    await fetch("/api/themes/themes")
       .then(res => res.json())
       .then(data => {
         console.log(data,'dassstos');
@@ -56,7 +56,7 @@
 
       }); }
 
-      color= await colors();
+      color=colors();
      tailwind.config = {
       darkMode: "class",
       theme: {
