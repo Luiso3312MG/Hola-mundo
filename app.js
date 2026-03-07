@@ -6,6 +6,8 @@ const session = require("express-session");
 
 const authRoutes = require("./src/routes/auth.routes");
 const pageRoutes = require("./src/routes/page.routes");
+const userRoutes = require("./src/routes/user.routes");
+const testRoutes = require("./src/routes/test.routes");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -37,7 +39,7 @@ app.use("/", pageRoutes);
 // rutas API
 app.use("/api/auth", authRoutes);
 
-// arrancar
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+app.use("/api/user", userRoutes);
+
+
+app.use("/api/test", testRoutes);
