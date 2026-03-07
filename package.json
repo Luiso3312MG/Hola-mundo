@@ -1,7 +1,7 @@
-Z{
+{
   "name": "login-app",
   "version": "1.0.0",
-  "description": "Login simple con MySQL",
+  "escription": "Login simple con MySQL",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
