@@ -7,44 +7,19 @@
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="flex flex-col items-center justify-center h-screen gap-6">
+<body>
+  <h1>KBSeed Studio</h1>
 
-<h1 class="text-2xl font-bold">
-Prueba de consulta SQL
-</h1>
+  <script>
+    fetch("/api/themes")
+      .then(res => res.json())
+      .then(data => {
 
-<button
-id="btnConsulta"
-class="bg-green-600 text-white px-6 py-3 rounded-lg"
->
-Consultar email
-</button>
+        const color = data.themes[0].primary_color;
 
-<div id="resultado" class="text-lg"></div>
+        document.body.style.backgroundColor = color;
 
-<script>
-
-document
-  .getElementById("btnConsulta")
-  .addEventListener("click", async () => {
-
-    const response = await fetch("/api/themes/themes");
-
-    const data = await response.json();
-    console.log(data,'data');
-
-    if (!data.ok) {
-      document.getElementById("resultado").innerText =
-        "Error: " + data.message;
-      return;
-    }
-
-    document.getElementById("resultado").innerText =
-      "Email desde MySQL: " + data.themes[0].primary_color;
-
-  });
-
-</script>
-
+      });
+  </script>
 </body>
 </html>
