@@ -8,7 +8,7 @@ router.get("/email", async (req, res) => {
   try {
 
     const [rows] = await pool.query(
-      `SELECT code FROM roles LIMIT 1`
+      `SELECT id FROM roles LIMIT 1`
     );
 
     if (rows.length === 0) {
