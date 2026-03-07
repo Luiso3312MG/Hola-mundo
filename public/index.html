@@ -31,7 +31,7 @@ document
     const response = await fetch("/api/themes/themes");
 
     const data = await response.json();
-    console.log(data.primary_color,'data');
+    console.log(data,'data');
 
     if (!data.ok) {
       document.getElementById("resultado").innerText =
@@ -40,7 +40,7 @@ document
     }
 
     document.getElementById("resultado").innerText =
-      "Email desde MySQL: " + data.primary_color;
+      "Email desde MySQL: " + data[0];
 
   });
 
