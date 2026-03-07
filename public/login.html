@@ -1,108 +1,143 @@
 <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | KBSeed</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f1ee;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
 
-<html lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              colors: {
-                "primary": "#E7C7C2",
-                "accent": "#D6C3A5",
-                "text-main": "#2B2B2B",
-                "text-sub": "#6D6766",
-                "background-light": "#F5E9E7",
-                "background-dark": "#221110",
-              },
-              fontFamily: {
-                "display": ["Manrope", "sans-serif"]
-              },
-              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-            },
-          },
-        }
-    </script>
-<title>Admin Login | Pole &amp; Barre</title>
+    .card {
+      background: white;
+      width: 100%;
+      max-width: 400px;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      margin-top: 0;
+      color: #2b2b2b;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #2b2b2b;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.95;
+    }
+
+    .message {
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    .error {
+      color: #b42318;
+    }
+
+    .success {
+      color: #027a48;
+    }
+  </style>
 </head>
-<body class="bg-background-light font-display text-text-main min-h-screen flex items-center justify-center p-6">
-<div class="w-full max-w-[440px] flex flex-col items-center">
-<!-- Logo Section -->
-<div class="mb-10 flex flex-col items-center gap-3">
-<div class="size-12 bg-white rounded-full flex items-center justify-center shadow-sm text-primary">
-<svg class="w-8 h-8" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
-</svg>
-</div>
-<h1 class="text-2xl font-bold tracking-tight text-text-main uppercase">Arias</h1>
-</div>
-<!-- Login Card -->
-<div class="w-full bg-white rounded-xl shadow-xl shadow-primary/10 border border-primary/20 p-8 md:p-10">
-<div class="mb-8">
-<h2 class="text-xl font-bold text-text-main">Iniciar Sesión</h2>
-<p class="text-text-sub text-sm mt-1">Panel de Administración del Studio</p>
-</div>
-<form class="space-y-5" method="POST" action="/login">
+<body>
+  <div class="card">
+    <h1>Iniciar sesión</h1>
 
-  <!-- Usuario -->
-  <div class="space-y-2">
-    <label class="text-sm font-semibold text-text-main ml-1">Usuario</label>
-    <div class="relative">
-      <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-accent text-[20px]">person</span>
-      <input 
-        id="user"
-        name="user"
-        required
-        class="w-full pl-11 pr-4 h-12 bg-background-light/30 border border-primary/30 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-text-main placeholder:text-text-sub/50"
-        type="text"
-        placeholder="Ingresa tu usuario"
-      />
-    </div>
+    <form id="loginForm">
+      <div class="field">
+        <label for="email">Correo</label>
+        <input type="email" id="email" name="email" required />
+      </div>
+
+      <div class="field">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="password" required />
+      </div>
+
+      <button type="submit">Entrar</button>
+    </form>
+
+    <div id="message" class="message"></div>
   </div>
 
-  <!-- Password -->
-  <div class="space-y-2">
-    <div class="flex justify-between items-center ml-1">
-      <label class="text-sm font-semibold text-text-main">Contraseña</label>
-    </div>
-    <div class="relative">
-      <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-accent text-[20px]">lock</span>
-      <input 
-        id="passwword"
-        name="passwword"
-        required
-        class="w-full pl-11 pr-12 h-12 bg-background-light/30 border border-primary/30 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-text-main placeholder:text-text-sub/50"
-        placeholder="••••••••"
-        type="password"
-      />
-    </div>
-  </div>
+  <script>
+    const loginForm = document.getElementById("loginForm");
+    const message = document.getElementById("message");
 
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-  <!-- Submit -->
-  <button 
-    class="w-full h-12 bg-primary hover:bg-primary/90 text-text-main font-bold rounded-lg shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2 mt-2" 
-    type="submit">
-    Ingresar al Panel
-  </button>
+      message.textContent = "";
+      message.className = "message";
 
-</form>
-<!-- Footer Info -->
-<footer class="mt-12 flex flex-col items-center gap-4">
-<div class="flex gap-6 text-text-sub/60 text-xs font-medium">
-<a class="hover:text-accent transition-colors" href="#">Términos de Servicio</a>
-<a class="hover:text-accent transition-colors" href="#">Política de Privacidad</a>
-<a class="hover:text-accent transition-colors" href="#">Soporte</a>
-</div>
-<p class="text-[10px] text-text-sub/40 uppercase tracking-widest">© 2024 Pole &amp; Barre Studio Admin</p>
-</footer>
-</div>
-<!-- Decorative background elements -->
-<div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] -z-10"></div>
-<div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/10 rounded-full blur-[120px] -z-10"></div>
-</body></html>
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      try {
+        const response = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          message.textContent = data.message || "Error al iniciar sesión";
+          message.classList.add("error");
+          return;
+        }
+
+        message.textContent = "Acceso correcto. Redirigiendo...";
+        message.classList.add("success");
+
+        window.location.href = "/index";
+      } catch (error) {
+        console.error(error);
+        message.textContent = "No se pudo conectar con el servidor";
+        message.classList.add("error");
+      }
+    });
+  </script>
+</body>
+</html>
