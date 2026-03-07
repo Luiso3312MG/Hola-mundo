@@ -78,7 +78,22 @@
     }
 
     var userId=1;
-    var date='2026-03-07';
+    var date = new Date().toISOString().split('T')[0];
+
+    // Aquí inserta el fragmento de código para configurar el input de fecha
+  document.addEventListener('DOMContentLoaded', () => {
+    const fechaInput = document.getElementById('fecha-seleccionada');
+    if (fechaInput) {
+      // Establecer el valor inicial en la fecha actual
+      fechaInput.value = date;
+      // Actualizar la variable "date" y volver a cargar las clases cuando cambie
+      fechaInput.addEventListener('change', (e) => {
+        date = e.target.value;
+        loadClasses();
+      });
+    }
+  });
+
     async function loadClasses() {
   try {
     const classRes = await fetch(`/api/classes/class?studId=${userId}&date=${date}`);
@@ -277,9 +292,10 @@
       <!-- Classes Section -->
       <section id="seccion-clases-hoy" class="bg-white rounded-xl border border-accent-border shadow-sm overflow-hidden">
         <div class="px-6 py-5 border-b border-accent-border flex justify-between items-center">
-          <h3 id="titulo-seccion-clases-hoy" class="text-text-main text-xl font-bold">Clases de Hoy</h3>
-          <span id="fecha-clases-hoy" class="text-text-main/50 text-sm">Lunes, 24 Mayo</span>
-        </div>
+  <h3 id="titulo-seccion-clases-hoy" class="text-text-main text-xl font-bold">Clases</h3>
+  <!-- Campo de selección de fecha para filtrar clases -->
+  <input id="fecha-seleccionada" type="date" class="text-sm text-text-main border border-accent-border rounded px-2 py-
+</div>
 
         <div class="overflow-x-auto">
           <table id="tabla-clases-hoy" class="w-full text-left">
