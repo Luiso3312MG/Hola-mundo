@@ -3,10 +3,10 @@ const pool = require("../config/db");
 
 const router = express.Router();
 
-router.get("/:studId/:date", (req, res) => {
+router.get("/class", async(req, res) => {
   const { studId, date } = req.params;
 
-  const sql = `
+  const [rows] = await pool.query(`
     SELECT 
       start_time,
       end_time,
@@ -20,7 +20,7 @@ router.get("/:studId/:date", (req, res) => {
       AND class_date = ?
       AND status <> 'ELIMINADA'
     ORDER BY start_time ASC
-  `;
+  `,[studId],[date]);
 
   pool.query(sql, [studId, date], (err, results) => {
     if (err) {

@@ -77,10 +77,17 @@
       }
     }
 
-    
+    var userId=1;
+    var date='2026-03-07';
     async function loadClasses() {
   try {
-    const classRes = await fetch("/api/classes/1/2026-03-07");
+    const classRes = await fetch("/api/classes/class",{
+       method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ userId, date })
+    });
 
     if (!classRes.ok) {
       const text = await classRes.text();
