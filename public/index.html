@@ -28,11 +28,9 @@ document
   .getElementById("btnConsulta")
   .addEventListener("click", async () => {
 
-    const response = await fetch("/api/test/email");
+    const response = await fetch("/api/test/themes");
 
     const data = await response.json();
-    console.log('respo',response);
-    console.log('dataaaaaaaaaaaaaaa',data);
 
     if (!data.ok) {
       document.getElementById("resultado").innerText =
@@ -41,7 +39,7 @@ document
     }
 
     document.getElementById("resultado").innerText =
-      "Email desde MySQL: " + data.email;
+      "Email desde MySQL: " + data.primary_color;
 
   });
 

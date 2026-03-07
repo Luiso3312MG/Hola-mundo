@@ -8,6 +8,7 @@ const authRoutes = require("./src/routes/auth.routes");
 const pageRoutes = require("./src/routes/page.routes");
 const userRoutes = require("./src/routes/user.routes");
 const testRoutes = require("./src/routes/test.routes");
+const themesRoutes = require("./src/routes/themes.routes");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -42,6 +43,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 
 app.use("/api/test", testRoutes);
+app.use("/api/themes", themesRoutes);
 
 // arrancar no quitar >:(
 app.listen(PORT, () => {
