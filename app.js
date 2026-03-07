@@ -41,5 +41,9 @@ app.use("/api/auth", authRoutes);
 
 app.use("/api/user", userRoutes);
 
-
 app.use("/api/test", testRoutes);
+
+// arrancar no quitar >:(
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+});
