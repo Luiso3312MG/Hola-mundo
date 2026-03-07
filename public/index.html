@@ -13,7 +13,13 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
     rel="stylesheet" />
-
+  <style>
+    :root {
+      --text: #000000;
+      --primary: #111111;
+      /* valor por defecto */
+    }
+  </style>
 
   <script id="tailwind-config">
     var color;
@@ -48,6 +54,12 @@
       console.log(data, "dassstos");
 
       const color = data.themes[0];
+      document.documentElement.style.setProperty(
+        "--primary",
+        color.background_color);
+        document.documentElement.style.setProperty(
+        "--text",
+        color.background_color);
 
       console.log(color, "daw");
 
@@ -56,7 +68,7 @@
 
     async function init() {
 
-      const color = await loadTheme(); // 👈 aquí espera
+      let color = await loadTheme(); // 👈 aquí espera
 
       tailwind.config = {
         darkMode: "class",
@@ -84,11 +96,11 @@
   <style>
     body {
       font-family: 'Manrope', sans-serif;
-      color: #2B2B2B;
+      color: var(--text);
     }
 
     .sidebar-item-active {
-      background-color: #CFA2A0;
+      background-color: var(--primary);
     }
   </style>
 </head>
