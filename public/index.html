@@ -76,9 +76,25 @@
       }
     }
 
+    async function loadClasses() {
+      try {
+        const classRes = await fetch("/api/class/class/1/2026-03-07");
+        const classData = await res.json();
+        
+
+        if (classData?.class?.length > 0) {
+          const classInfo = classData.class[0];
+          console.log(classInfo);
+        }
+      } catch (error) {
+        console.error("Error cargando clase:", error);
+      }
+    }
+
     async function initTheme() {
       await loadUser();
       await loadTheme();
+      await loadClasses();
 
       tailwind.config = {
         darkMode: "class",
