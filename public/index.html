@@ -44,8 +44,11 @@
     fetch("/api/themes/themes")
       .then(res => res.json())
       .then(data => {
+        console.log(data,'dassstos');
+        
 
         color = data.themes[0];
+        console.log(color,'daw');
 
         //document.body.style.backgroundColor = color;
 
