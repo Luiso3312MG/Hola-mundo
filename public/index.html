@@ -77,49 +77,10 @@
       }
     }
 
-    var userId = 1;
-    var date = new Date().toISOString().split('T')[0];
-
-    // Aquí inserta el fragmento de código para configurar el input de fecha
-    document.addEventListener('DOMContentLoaded', () => {
-      const fechaInput = document.getElementById('fecha-seleccionada');
-      if (fechaInput) {
-        // Establecer el valor inicial en la fecha actual
-        fechaInput.value = date;
-        // Actualizar la variable "date" y volver a cargar las clases cuando cambie
-        fechaInput.addEventListener('change', (e) => {
-          date = e.target.value;
-          loadClasses();
-        });
-      }
-    });
-
-    async function loadClasses() {
-      try {
-        const classRes = await fetch(`/api/classes/class?studId=${userId}&date=${date}`);
-
-        if (!classRes.ok) {
-          const text = await classRes.text();
-          console.error("Error HTTP:", classRes.status, text);
-          return;
-        }
-
-       classData = await classRes.json();
-        console.log("Clases:", classData);
-
-        if (classData?.length > 0) {
-          const classInfo = classData[0];
-          console.log("Primera clase:", classInfo);
-        }
-      } catch (error) {
-        console.error("Error cargando clase:", error);
-      }
-    }
-
     async function initTheme() {
       await loadUser();
       await loadTheme();
-      await loadClasses();
+      
 
       tailwind.config = {
         darkMode: "class",
@@ -514,6 +475,44 @@
   </script>
 </body>
 <script>
+  var userId = 1;
+    var date = new Date().toISOString().split('T')[0];
+
+    // Aquí inserta el fragmento de código para configurar el input de fecha
+    document.addEventListener('DOMContentLoaded', () => {
+      const fechaInput = document.getElementById('fecha-seleccionada');
+      if (fechaInput) {
+        // Establecer el valor inicial en la fecha actual
+        fechaInput.value = date;
+        // Actualizar la variable "date" y volver a cargar las clases cuando cambie
+        fechaInput.addEventListener('change', (e) => {
+          date = e.target.value;
+          loadClasses();
+        });
+      }
+    });
+
+    async function loadClasses() {
+      try {
+        const classRes = await fetch(`/api/classes/class?studId=${userId}&date=${date}`);
+
+        if (!classRes.ok) {
+          const text = await classRes.text();
+          console.error("Error HTTP:", classRes.status, text);
+          return;
+        }
+
+       classData = await classRes.json();
+        console.log("Clases:", classData);
+
+        if (classData?.length > 0) {
+          const classInfo = classData[0];
+          console.log("Primera clase:", classInfo);
+        }
+      } catch (error) {
+        console.error("Error cargando clase:", error);
+      }
+    }
   await loadClasses();
   const tbody = document.getElementById("tabla-body");
 console.log("imprimiendo desde aqui",classData);
