@@ -3,7 +3,7 @@ const pool = require("../config/db");
 
 const router = express.Router();
 
-router.get("/class", (req, res) => {
+router.get("/:studId/:date", (req, res) => {
   const { studId, date } = req.params;
 
   const sql = `
@@ -22,7 +22,7 @@ router.get("/class", (req, res) => {
     ORDER BY start_time ASC
   `;
 
-  connection.query(sql, [studId, date], (err, results) => {
+  pool.query(sql, [studId, date], (err, results) => {
     if (err) {
       console.error("Error al obtener clases:", err);
       return res.status(500).json({ error: "Error del servidor" });

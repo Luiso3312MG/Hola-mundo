@@ -77,20 +77,28 @@
       }
     }
 
+    
     async function loadClasses() {
-      try {
-        const classRes = await fetch("/api/class/class/1/2026-03-07");
-        const classData = await classRes.json();
-        
+  try {
+    const classRes = await fetch("/api/classes/1/2026-03-07");
 
-        if (classData?.class?.length > 0) {
-          const classInfo = classData.class[0];
-          console.log(classInfo);
-        }
-      } catch (error) {
-        console.error("Error cargando clase:", error);
-      }
+    if (!classRes.ok) {
+      const text = await classRes.text();
+      console.error("Error HTTP:", classRes.status, text);
+      return;
     }
+
+    const classData = await classRes.json();
+    console.log("Clases:", classData);
+
+    if (classData?.length > 0) {
+      const classInfo = classData[0];
+      console.log("Primera clase:", classInfo);
+    }
+  } catch (error) {
+    console.error("Error cargando clase:", error);
+  }
+}
 
     async function initTheme() {
       await loadUser();

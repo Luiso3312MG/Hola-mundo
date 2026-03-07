@@ -45,7 +45,7 @@ app.use("/api/user", userRoutes);
 
 app.use("/api/test", testRoutes);
 app.use("/api/themes", themesRoutes);
-app.use("/api/class", classRoutes);
+app.use("/api/classes", classRoutes);
 
 // arrancar no quitar >:(
 app.listen(PORT, () => {
